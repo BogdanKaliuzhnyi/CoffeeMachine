@@ -360,6 +360,136 @@ files:
         }
     }
   learner_created: false
-feedback_link: https://hyperskill.org/projects/33/stages/178/implement#comment
-status: Unchecked
+- name: src/machine/utils/ScannerUtil.java
+  visible: true
+  text: |
+    package machine.utils;
+
+    import java.util.Scanner;
+
+    public class ScannerUtil {
+        static Scanner sc = new Scanner(System.in);
+        public static int getAmountOfWater() {
+            System.out.println("Write how many ml of water the coffee machine has:");
+            return sc.nextInt();
+        }
+        public static int getAmountOfMilk() {
+            System.out.println("Write how many ml of milk the coffee machine has:");
+            return sc.nextInt();
+        }
+
+        public static int getAmountOfCoffeeBeans() {
+            System.out.println("Write how many grams of coffee beans the coffee machine has:");
+            return sc.nextInt();
+        }
+
+        public static int getCups() {
+            System.out.println("Write how many cups of coffee you wil need:");
+            return sc.nextInt();
+        }
+    }
+  learner_created: true
+- name: src/machine/makingCoffee/CoffeeMaker.java
+  visible: true
+  text: |
+    package machine.makingCoffee;
+    import java.math.*;
+
+    public class CoffeeMaker {
+
+        Recipe recipe;
+        int currentWater;
+        int currentMilk;
+        int currentCoffeeBeans;
+        public void setRecipe(Recipe recipe) {
+            this.recipe = recipe;
+        }
+
+        public void setWater(int water) {
+            this.currentWater = water;
+        }
+
+        public void setMilk(int milk) {
+            this.currentMilk = milk;
+        }
+
+        public void setCoffeeBeans(int coffeeBeans) {
+            this.currentCoffeeBeans = coffeeBeans;
+        }
+
+        public void checkIngredients(int cups) {
+            int indeedWater = recipe.getWater();
+            int indeedMilk = recipe.getMilk();
+            int indeedBeans = recipe.getBeans();
+
+            int allowedWater = currentWater / indeedWater;
+            int allowedMilk = currentMilk / indeedMilk;
+            int allowedBeans = currentCoffeeBeans / indeedBeans;
+
+            int allowCups = Math.min(allowedBeans, Math.min(allowedMilk, allowedWater));
+
+            if (cups == allowCups) {
+                System.out.println("Yes, I can make that amount of coffee");
+            } else if (cups < allowCups) {
+                System.out.println("Yes, I can make that amount of coffee (and even " +
+                        (allowCups - cups) + " more than that)");
+            } else {
+                System.out.println("No, I can make only " + allowCups +
+                        " cup(s) of coffee");
+            }
+        }
+    }
+  learner_created: true
+- name: src/machine/makingCoffee/Espresso.java
+  visible: true
+  text: |
+    package machine.makingCoffee;
+
+    public class Recipe {
+
+        final int WATER = 200;
+        final int MILK = 50;
+        final int BEANS = 15;
+
+        public int getWater() {
+            return WATER;
+        }
+
+        public int getMilk() {
+            return MILK;
+        }
+
+        public int getBeans() {
+            return BEANS;
+        }
+    }
+  learner_created: true
+- name: src/machine/makingCoffee/Latte.java
+  visible: true
+  learner_created: true
+- name: src/machine/makingCoffee/Cappuccino.java
+  visible: true
+  learner_created: true
+- name: src/machine/makingCoffee/Recipe.java
+  visible: true
+  learner_created: true
+feedback_link: https://hyperskill.org/learn/step/5332#comment
+status: Failed
+feedback:
+  message: |-
+    Wrong answer in test #1
+
+    There should be two lines with &quot;milk&quot;, found: 1
+
+    Please find below the output of your program during this failed test.
+
+    ---
+
+    The coffee machine has:
+    400 ml of water
+    540 ml of milk
+    120 g of coffee beans
+    9 disposable cups
+    $550 of money
+  time: "Sun, 14 May 2023 10:11:47 UTC"
 record: -1
