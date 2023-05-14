@@ -32,30 +32,30 @@ public class CoffeeMaker {
         this.currentCups += cups;
     }
 
-    public void setMoney () {
-        this.currentMoney = 0;
+    public void setMoney (int money) {
+        this.currentMoney = money;
     }
 
-    public void checkIngredients(int cups) {
+    public boolean checkIngredients() {
         int indeedWater = recipe.getWater();
         int indeedMilk = recipe.getMilk();
         int indeedBeans = recipe.getCoffeeBeans();
 
         int allowedWater = currentWater / indeedWater;
-        int allowedMilk = currentMilk / indeedMilk;
+        int allowedMilk = indeedMilk == 0 ? currentMilk : (currentMilk / indeedMilk);
         int allowedBeans = currentCoffeeBeans / indeedBeans;
 
         int allowedCups = Math.min(allowedBeans, Math.min(allowedMilk, allowedWater));
 
         if (allowedCups > 0 && currentCups > 0) {
-            makeCoffee();
+            return true;
         ///// Piece of old stage start
         /*} else if (cups < allowCups) {
             System.out.println("Yes, I can make that amount of coffee (and even " +
                     (allowCups - cups) + " more than that)");*/
         ///// Piece of old stage end
         } else {
-            System.out.println("Sorry, not enough ingredients.");
+            return false;
         }
 
     }
@@ -71,11 +71,15 @@ public class CoffeeMaker {
     }
 
     public void makeCoffee() {
-        currentCups--;
-        currentWater -= recipe.getWater();
-        currentMilk -= recipe.getMilk();
-        currentCoffeeBeans -= recipe.getCoffeeBeans();
-        currentMoney += recipe.getPrice();
+        if (checkIngredients()) {
+            currentCups--;
+            currentWater -= recipe.getWater();
+            currentMilk -= recipe.getMilk();
+            currentCoffeeBeans -= recipe.getCoffeeBeans();
+            currentMoney += recipe.getPrice();
+        } else {
+            System.out.println("Sorry, not enough ingredients.");
+        }
     }
 }
 

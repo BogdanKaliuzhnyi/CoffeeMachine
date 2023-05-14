@@ -7,8 +7,8 @@ public class CoffeeMachine {
     public static void main(String[] args) {
         CoffeeMaker coffeeMaker = new CoffeeMaker();
         coffeeMaker.showCurrentIngredients();
-
-        }
+        action(coffeeMaker);
+    }
 
         /*
         int water = ScannerUtil.getAmountOfWater();
@@ -20,7 +20,7 @@ public class CoffeeMachine {
         int cups = ScannerUtil.getCups();
         */
 
-    public void action(CoffeeMaker coffeeMaker) {
+    public static void action(CoffeeMaker coffeeMaker) {
         String option = ScannerUtil.action();
         Recipe espresso = new Espresso();
         Recipe cappuccino = new Cappuccino();
@@ -29,9 +29,10 @@ public class CoffeeMachine {
             case "buy" -> {
                 switch (ScannerUtil.getMenu()) {
                     case 1 -> coffeeMaker.setRecipe(espresso);
-                    case 2 -> coffeeMaker.setRecipe(cappuccino);
-                    case 3 -> coffeeMaker.setRecipe(latte);
+                    case 2 -> coffeeMaker.setRecipe(latte);
+                    case 3 -> coffeeMaker.setRecipe(cappuccino);
                 }
+                coffeeMaker.makeCoffee();
                 coffeeMaker.showCurrentIngredients();
             }
             case "fill" -> {
@@ -40,7 +41,7 @@ public class CoffeeMachine {
             }
             case "take" -> {
                 System.out.println("I gave you $" + coffeeMaker.getCurrentMoney());
-                coffeeMaker.setMoney();
+                coffeeMaker.setMoney(0);
                 coffeeMaker.showCurrentIngredients();
             }
             default -> {
@@ -49,7 +50,7 @@ public class CoffeeMachine {
         }
     }
 
-    public void fillingCoffeeMachine(CoffeeMaker coffeeMaker) {
+    public static void fillingCoffeeMachine(CoffeeMaker coffeeMaker) {
         int water = ScannerUtil.fillingWater();
         coffeeMaker.setWater(water);
         int milk = ScannerUtil.fillingMilk();
