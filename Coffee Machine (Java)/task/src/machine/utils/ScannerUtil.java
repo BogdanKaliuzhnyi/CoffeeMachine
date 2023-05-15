@@ -28,9 +28,9 @@ public class ScannerUtil {
         return sc.next();
     }
 
-    public static int getMenu() {
+    public static String getMenu() {
         System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:");
-        return sc.nextInt();
+        return sc.next();
     }
 
     public static int fillingWater() {

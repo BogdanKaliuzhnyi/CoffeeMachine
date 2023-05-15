@@ -276,6 +276,254 @@ files:
         }
     }
   learner_created: false
+- name: src/machine/makingCoffee/Recipe.java
+  visible: true
+  text: |
+    package machine.makingCoffee;
+
+    abstract public class Recipe {
+        abstract int getWater();
+        abstract int getMilk();
+        abstract int getCoffeeBeans();
+        abstract int getPrice();
+
+    }
+  learner_created: true
+- name: src/machine/makingCoffee/Espresso.java
+  visible: true
+  text: |
+    package machine.makingCoffee;
+
+    public class Espresso extends Recipe {
+
+        final int WATER = 250;
+        final int MILK = 0;
+        final int BEANS = 16;
+        final int PRICE = 4;
+
+        public int getWater() {
+            return WATER;
+        }
+
+        public int getMilk() {
+            return MILK;
+        }
+
+        public int getCoffeeBeans() {
+            return BEANS;
+        }
+
+        public int getPrice(){
+            return PRICE;
+        }
+    }
+  learner_created: true
+- name: src/machine/utils/ScannerUtil.java
+  visible: true
+  text: |
+    package machine.utils;
+
+    import java.util.Scanner;
+
+    public class ScannerUtil {
+        static Scanner sc = new Scanner(System.in);
+        public static int getAmountOfWater() {
+            System.out.println("Write how many ml of water the coffee machine has:");
+            return sc.nextInt();
+        }
+        public static int getAmountOfMilk() {
+            System.out.println("Write how many ml of milk the coffee machine has:");
+            return sc.nextInt();
+        }
+
+        public static int getAmountOfCoffeeBeans() {
+            System.out.println("Write how many grams of coffee beans the coffee machine has:");
+            return sc.nextInt();
+        }
+
+        public static int getCups() {
+            System.out.println("Write how many cups of coffee you wil need:");
+            return sc.nextInt();
+        }
+
+        public static String action() {
+            System.out.println("Write action (buy, fill, take):");
+            return sc.next();
+        }
+
+        public static int getMenu() {
+            System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:");
+            return sc.nextInt();
+        }
+
+        public static int fillingWater() {
+            System.out.println("Write how many ml of water you want to add:");
+            return sc.nextInt();
+        }
+        public static int fillingMilk() {
+            System.out.println("Write how many ml of milk you want to add:");
+            return sc.nextInt();
+        }
+        public static int fillingCoffeeBeans() {
+            System.out.println("Write how many grams of coffee beans you want to add:");
+            return sc.nextInt();
+        }
+        public static int fillingCups() {
+            System.out.println("Write how many disposable cups you want to add:");
+            return sc.nextInt();
+        }
+    }
+  learner_created: true
+- name: src/machine/makingCoffee/Latte.java
+  visible: true
+  text: |
+    package machine.makingCoffee;
+
+    public class Latte extends Recipe {
+        final int WATER = 350;
+        final int MILK = 75;
+        final int BEANS = 20;
+        final int PRICE = 7;
+
+        public int getWater() {
+            return WATER;
+        }
+
+        public int getMilk() {
+            return MILK;
+        }
+
+        public int getCoffeeBeans() {
+            return BEANS;
+        }
+
+        public int getPrice(){
+            return PRICE;
+        }
+    }
+  learner_created: true
+- name: src/machine/makingCoffee/Cappuccino.java
+  visible: true
+  text: |
+    package machine.makingCoffee;
+
+    public class Cappuccino extends Recipe {
+        final int WATER = 200;
+        final int MILK = 100;
+        final int BEANS = 12;
+        final int CUPS = 1;
+        final int PRICE = 6;
+
+        public int getWater() {
+            return WATER;
+        }
+
+        public int getMilk() {
+            return MILK;
+        }
+
+        public int getCoffeeBeans() {
+            return BEANS;
+        }
+
+        public int getPrice(){
+            return PRICE;
+        }
+
+    }
+  learner_created: true
+- name: src/machine/makingCoffee/CoffeeMaker.java
+  visible: true
+  text: |+
+    package machine.makingCoffee;
+
+    public class CoffeeMaker {
+
+        Recipe recipe;
+        int currentWater = 400;
+        int currentMilk = 540;
+        int currentCoffeeBeans = 120;
+        int currentCups = 9;
+        int currentMoney = 550;
+
+        public int getCurrentMoney() {
+            return currentMoney;
+        }
+        public void setRecipe(Recipe recipe) {
+            this.recipe = recipe;
+        }
+
+        public void setWater(int water) {
+            this.currentWater += water;
+        }
+
+        public void setMilk(int milk) {
+            this.currentMilk += milk;
+        }
+
+        public void setCoffeeBeans(int coffeeBeans) {
+            this.currentCoffeeBeans += coffeeBeans;
+        }
+
+        public void setCups (int cups) {
+            this.currentCups += cups;
+        }
+
+        public void setMoney (int money) {
+            this.currentMoney = money;
+        }
+
+        public boolean checkIngredients() {
+            int indeedWater = recipe.getWater();
+            int indeedMilk = recipe.getMilk();
+            int indeedBeans = recipe.getCoffeeBeans();
+
+            int allowedWater = currentWater / indeedWater;
+            int allowedMilk = indeedMilk == 0 ? currentMilk : (currentMilk / indeedMilk);
+            int allowedBeans = currentCoffeeBeans / indeedBeans;
+
+            int allowedCups = Math.min(allowedBeans, Math.min(allowedMilk, allowedWater));
+
+            if (allowedCups > 0 && currentCups > 0) {
+                return true;
+            ///// Piece of old stage start
+            /*} else if (cups < allowCups) {
+                System.out.println("Yes, I can make that amount of coffee (and even " +
+                        (allowCups - cups) + " more than that)");*/
+            ///// Piece of old stage end
+            } else {
+                return false;
+            }
+
+        }
+        public void showCurrentIngredients() {
+            System.out.printf("""
+                            The coffee machine has:
+                            %d ml of water
+                            %d ml of milk
+                            %d g of coffee beans
+                            %d disposable cups
+                            $%d of money""",
+                    currentWater, currentMilk, currentCoffeeBeans, currentCups, currentMoney);
+        }
+
+        public void makeCoffee() {
+            if (checkIngredients()) {
+                currentCups--;
+                currentWater -= recipe.getWater();
+                currentMilk -= recipe.getMilk();
+                currentCoffeeBeans -= recipe.getCoffeeBeans();
+                currentMoney += recipe.getPrice();
+            } else {
+                System.out.println("Sorry, not enough ingredients.");
+            }
+        }
+    }
+
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/5333#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: "Mon, 15 May 2023 12:14:01 UTC"
 record: -1

@@ -6,59 +6,70 @@ public class CoffeeMachine {
 
     public static void main(String[] args) {
         CoffeeMaker coffeeMaker = new CoffeeMaker();
-        coffeeMaker.showCurrentIngredients();
+        setInitialData(coffeeMaker);
         action(coffeeMaker);
     }
 
-        /*
-        int water = ScannerUtil.getAmountOfWater();
-        coffeeMaker.setWater(water);
-        int milk = ScannerUtil.getAmountOfMilk();
-        coffeeMaker.setMilk(milk);
-        int coffeeBeans = ScannerUtil.getAmountOfCoffeeBeans();
-        coffeeMaker.setCoffeeBeans(coffeeBeans);
-        int cups = ScannerUtil.getCups();
-        */
+
+    public static void setInitialData(CoffeeMaker coffeeMaker) {
+        int initialWater = 400;
+        //ScannerUtil.getAmountOfWater();
+        coffeeMaker.setWater(initialWater);
+        int initialMilk = 540;
+        //ScannerUtil.getAmountOfMilk();
+        coffeeMaker.setMilk(initialMilk);
+        int initialCoffeeBeans = 120;
+        //ScannerUtil.getAmountOfCoffeeBeans();
+        coffeeMaker.setCoffeeBeans(initialCoffeeBeans);
+        int initialCups = 9;
+        coffeeMaker.setCups(initialCups);
+        //ScannerUtil.getCups();
+        int initialMoney = 550;
+        coffeeMaker.setMoney(initialMoney);
+    }
 
     public static void action(CoffeeMaker coffeeMaker) {
-        String option = ScannerUtil.action();
-        Recipe espresso = new Espresso();
-        Recipe cappuccino = new Cappuccino();
-        Recipe latte = new Latte();
-        switch (option) {
-            case "buy" -> {
-                switch (ScannerUtil.getMenu()) {
-                    case 1 -> coffeeMaker.setRecipe(espresso);
-                    case 2 -> coffeeMaker.setRecipe(latte);
-                    case 3 -> coffeeMaker.setRecipe(cappuccino);
+        boolean coffeeMachineRun = true;
+        while (coffeeMachineRun) {
+            String option = ScannerUtil.action();
+            switch (option) {
+                case "buy" -> {
+                    Recipe chosen = null;
+                    switch (ScannerUtil.getMenu()) {
+                        case "1" -> chosen = new Espresso();
+                        case "2" -> chosen = new Latte();
+                        case "3" -> chosen = new Cappuccino();
+                        case "back" -> {
+                        }
+                    }
+                    if (chosen != null) {
+                    coffeeMaker.setRecipe(chosen);
+                    coffeeMaker.makeCoffee();
+                    }
                 }
-                coffeeMaker.makeCoffee();
-                coffeeMaker.showCurrentIngredients();
-            }
-            case "fill" -> {
-                fillingCoffeeMachine(coffeeMaker);
-                coffeeMaker.showCurrentIngredients();
-            }
-            case "take" -> {
-                System.out.println("I gave you $" + coffeeMaker.getCurrentMoney());
-                coffeeMaker.setMoney(0);
-                coffeeMaker.showCurrentIngredients();
-            }
-            default -> {
-                System.out.println("Wrong command");
+                case "fill" -> {
+                    fillingCoffeeMachine(coffeeMaker);
+                }
+                case "take" -> {
+                    System.out.println("I gave you $" + coffeeMaker.getCurrentMoney());
+                    coffeeMaker.takeMoney(0);
+                }
+                case "remaining" -> coffeeMaker.showCurrentIngredients();
+                case "exit" -> coffeeMachineRun = false;
+                default -> System.out.println("Wrong command");
             }
         }
     }
 
     public static void fillingCoffeeMachine(CoffeeMaker coffeeMaker) {
         int water = ScannerUtil.fillingWater();
-        coffeeMaker.setWater(water);
+        coffeeMaker.addWater(water);
         int milk = ScannerUtil.fillingMilk();
-        coffeeMaker.setMilk(milk);
+        coffeeMaker.addMilk(milk);
         int coffeeBeans = ScannerUtil.fillingCoffeeBeans();
-        coffeeMaker.setCoffeeBeans(coffeeBeans);
+        coffeeMaker.addCoffeeBeans(coffeeBeans);
         int cups = ScannerUtil.fillingCups();
-        coffeeMaker.setCups(cups);
+        coffeeMaker.addCups(cups);
     }
 }
 
